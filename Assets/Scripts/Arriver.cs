@@ -18,10 +18,23 @@ public class Arriver : Mover {
 		if (target) {
 			// the next line is a fancy toggle comment ... make it read //* instead of /* and see what happens
 			/*
-			ApplyForce (Arrive (target.transform.position, threshold));
+			ApplyForce (Arrive (target.transform.position, threshold, radius + 0.5f));
 			/*/
 			velocity += Arrive (target.transform.position, threshold, radius + 0.5f);
 			//*/
+		}
+	}
+
+	protected override void OnRenderObject() {
+		base.OnRenderObject ();
+
+		if (target) {
+			ColorHelper.green.SetPass (0);
+
+			GL.Begin (GL.LINES);
+			GL.Vertex (transform.position);
+			GL.Vertex (target.transform.position);
+			GL.End ();
 		}
 	}
 }

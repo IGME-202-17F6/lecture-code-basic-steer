@@ -29,7 +29,7 @@ public abstract class Mover : MonoBehaviour {
 	// returns a steering vector towards the given targetPos
 	protected Vector3 Seek(Vector3 targetPos) {
 		Vector3 toTarget = targetPos - position;
-		Vector3 desiredVelocity = toTarget.normalized * maxTurn;
+		Vector3 desiredVelocity = toTarget.normalized * maxSpeed;
 		Vector3 steeringForce = desiredVelocity - velocity;
 
 		return VectorHelper.Clamp (steeringForce, maxTurn);
@@ -78,5 +78,14 @@ public abstract class Mover : MonoBehaviour {
 		transform.position = position;
 
 		acceleration = Vector3.zero;
+	}
+
+	protected virtual void OnRenderObject() {
+		ColorHelper.black.SetPass (0);
+
+		GL.Begin (GL.LINES);
+		GL.Vertex (transform.position);
+		GL.Vertex (transform.position + velocity.normalized);
+		GL.End ();
 	}
 }
